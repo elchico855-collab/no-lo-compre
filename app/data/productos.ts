@@ -1,0 +1,38 @@
+export const productos = [
+  {
+    id: 1,
+    marca: "Apple",
+    nombre: "iPhone 16",
+    precio: 21999,
+    imagen: "/productos/iphone.jpg",
+    categoria: "Celulares",
+    rating: 4.9,
+  },
+  {
+    id: 2,
+    marca: "Sony",
+    nombre: "PlayStation 5",
+    precio: 12999,
+    imagen: "/productos/ps5.jpg",
+    categoria: "Consolas",
+    rating: 4.8,
+  },
+  {
+    id: 3,
+    marca: "Nintendo",
+    nombre: "Nintendo Switch 2",
+    precio: 10999,
+    imagen: "/productos/switch.avif",
+    categoria: "Consolas",
+    rating: 4.7,
+  },
+  {
+    id: 4,
+    marca: "Apple",
+    nombre: "MacBook Air M4",
+    precio: 27999,
+    imagen: "/productos/macbook.jpg",
+    categoria: "Computadoras",
+    rating: 4.9,
+  },
+];
