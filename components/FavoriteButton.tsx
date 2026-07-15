@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+import { auth } from "@/app/lib/auth";
+import { guardarFavorito } from "@/app/lib/usuario";
+
 type Props = {
   producto: {
     id: number;
@@ -24,7 +27,7 @@ export default function FavoriteButton({ producto }: Props) {
     );
   }, [producto.id]);
 
-  const toggleFavorito = () => {
+  const toggleFavorito = async () => {
     const favoritos = JSON.parse(
       localStorage.getItem("favoritos") || "[]"
     );
@@ -40,13 +43,37 @@ export default function FavoriteButton({ producto }: Props) {
       );
 
       setFavorito(false);
+
     } else {
+
       favoritos.push(producto);
 
       localStorage.setItem(
         "favoritos",
         JSON.stringify(favoritos)
       );
+
+      const usuario = auth.currentUser;
+
+      if (usuario) {
+        try {
+
+          await guardarFavorito(
+            usuario.uid,
+            producto
+          );
+
+          console.log("✅ Favorito guardado en Firestore");
+
+        } catch (error) {
+
+          console.error(
+            "❌ Error guardando favorito:",
+            error
+          );
+
+        }
+      }
 
       setFavorito(true);
     }

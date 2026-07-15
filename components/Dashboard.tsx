@@ -1,7 +1,8 @@
+import AnimatedCounter from "./AnimatedCounter";
 type Props = {
   dineroAhorrado: number;
   comprasEvitadas: number;
-};
+}; 
 
 export default function Dashboard({
   dineroAhorrado,
@@ -30,123 +31,172 @@ export default function Dashboard({
   );
 
   return (
-    <section className="mt-16">
+    <section className="mt-20">
 
-      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-blue-900 rounded-3xl shadow-2xl p-10 text-white">
+      <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 p-10 shadow-2xl">
 
-        <div className="flex items-center justify-between flex-wrap gap-4 mb-10">
+        <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
 
-          <div>
+        <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-indigo-500/10 blur-3xl" />
 
-            <h2 className="text-4xl font-bold">
-              📊 Tu Dashboard
-            </h2>
+        <div className="relative">
 
-            <p className="text-gray-300 mt-2">
-              Sigue construyendo tu hábito de ahorrar.
-            </p>
+          <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
 
-          </div>
+            <div>
 
-          <div className="bg-white/10 px-6 py-3 rounded-2xl">
+              <span className="inline-flex rounded-full bg-cyan-500/20 px-4 py-2 text-sm font-semibold text-cyan-300">
 
-            <p className="text-sm text-gray-300">
-              Nivel actual
-            </p>
+                📊 Dashboard Premium
 
-            <h3 className="text-2xl font-bold">
-              {obtenerNivel()}
-            </h3>
+              </span>
 
-          </div>
+              <h2 className="mt-5 text-4xl font-black text-white">
 
-        </div>
+                Tus estadísticas
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              </h2>
 
-          <div className="bg-white/10 rounded-2xl p-8 backdrop-blur">
+              <p className="mt-2 text-slate-300">
 
-            <p className="text-gray-300">
-              💰 Dinero Ahorrado
-            </p>
+                Cada compra evitada fortalece tu futuro financiero.
 
-            <h2 className="text-5xl font-bold mt-4">
-              ${dineroAhorrado.toLocaleString()}
-            </h2>
+              </p>
 
-          </div>
+            </div>
 
-          <div className="bg-white/10 rounded-2xl p-8 backdrop-blur">
+            <div className="rounded-3xl border border-white/10 bg-white/10 px-6 py-5 backdrop-blur">
 
-            <p className="text-gray-300">
-              🛒 Compras Evitadas
-            </p>
+              <p className="text-sm text-slate-300">
 
-            <h2 className="text-5xl font-bold mt-4">
-              {comprasEvitadas}
-            </h2>
+                Nivel actual
+
+              </p>
+
+              <h3 className="mt-2 text-2xl font-bold text-white">
+
+                {obtenerNivel()}
+
+              </h3>
+
+            </div>
 
           </div>
 
-          <div className="bg-white/10 rounded-2xl p-8 backdrop-blur">
+          <div className="grid gap-6 md:grid-cols-3">
+                        {/* Dinero */}
+            <div className="rounded-3xl bg-gradient-to-br from-emerald-500 to-green-600 p-8 shadow-xl transition-all duration-300 hover:-translate-y-2">
 
-            <p className="text-gray-300">
-              🎯 Próxima Meta
-            </p>
+              <p className="text-white/80">
+                💰 Dinero Ahorrado
+              </p>
 
-            <h2 className="text-5xl font-bold mt-4">
-              {siguienteMeta()}
-            </h2>
+              <h2 className="mt-4 text-5xl font-black text-white">
+  <AnimatedCounter
+    value={dineroAhorrado}
+    prefix="$"
+  />
+</h2>
 
-            <p className="mt-2 text-gray-300">
-              compras
-            </p>
+              <p className="mt-4 text-sm text-green-100">
+                Sigue aumentando tu patrimonio.
+              </p>
+
+            </div>
+
+            {/* Compras */}
+            <div className="rounded-3xl bg-gradient-to-br from-sky-500 to-blue-700 p-8 shadow-xl transition-all duration-300 hover:-translate-y-2">
+
+              <p className="text-white/80">
+                🛒 Compras Evitadas
+              </p>
+
+              <h2 className="mt-4 text-5xl font-black text-white">
+  <AnimatedCounter
+    value={comprasEvitadas}
+  />
+</h2>
+
+              <p className="mt-4 text-sm text-blue-100">
+                Decisiones inteligentes.
+              </p>
+
+            </div>
+
+            {/* Meta */}
+            <div className="rounded-3xl bg-gradient-to-br from-amber-500 to-orange-500 p-8 shadow-xl transition-all duration-300 hover:-translate-y-2">
+
+              <p className="text-white/80">
+                🎯 Próxima Meta
+              </p>
+
+              <h2 className="mt-4 text-5xl font-black text-white">
+  <AnimatedCounter
+    value={siguienteMeta()}
+  />
+</h2>
+
+              <p className="mt-4 text-sm text-orange-100">
+                Compras para subir de nivel.
+              </p>
+
+            </div>
 
           </div>
 
-        </div>
+          {/* Barra de progreso */}
 
-        <div className="mt-12">
+          <div className="mt-12">
 
-          <div className="flex justify-between text-sm mb-3">
+            <div className="mb-4 flex items-center justify-between">
 
-            <span>
-              Progreso al siguiente nivel
-            </span>
+              <span className="text-sm font-medium text-slate-300">
+                Progreso al siguiente nivel
+              </span>
 
-            <span>
-              {Math.round(progreso)}%
-            </span>
+              <span className="rounded-full bg-white/10 px-3 py-1 text-sm font-bold text-cyan-300">
+                {Math.round(progreso)}%
+              </span>
+
+            </div>
+
+            <div className="h-4 w-full overflow-hidden rounded-full bg-slate-700">
+
+              <div
+                className="h-4 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 transition-all duration-1000"
+                style={{
+                  width: `${progreso}%`,
+                }}
+              />
+
+            </div>
+
+            <div className="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+
+              <h3 className="text-xl font-bold text-white">
+                🚀 Sigue así
+              </h3>
+
+              <p className="mt-3 leading-7 text-slate-300">
+
+                Te faltan{" "}
+
+                <strong className="text-white">
+                  {Math.max(
+                    siguienteMeta() - comprasEvitadas,
+                    0
+                  )}
+                </strong>{" "}
+
+                compras evitadas para alcanzar el siguiente nivel.
+
+                Cada decisión inteligente fortalece tu futuro financiero.
+
+              </p>
+
+            </div>
 
           </div>
-
-          <div className="w-full h-5 rounded-full bg-slate-700 overflow-hidden">
-
-            <div
-              className="h-5 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 transition-all duration-700"
-              style={{
-                width: `${progreso}%`,
-              }}
-            />
-
-          </div>
-
-          <p className="mt-5 text-gray-300">
-
-            Te faltan{" "}
-
-            <strong className="text-white">
-
-              {Math.max(
-                siguienteMeta() - comprasEvitadas,
-                0
-              )}
-
-            </strong>{" "}
-
-            compras para subir al siguiente nivel.
-
-          </p>
 
         </div>
 
@@ -154,4 +204,5 @@ export default function Dashboard({
 
     </section>
   );
-} 
+}
+          

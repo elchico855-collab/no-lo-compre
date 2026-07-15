@@ -6,6 +6,14 @@ import ProductCard from "./ProductCard";
 import Dashboard from "./Dashboard";
 import InvestmentCard from "./InvestmentCard";
 import { productos } from "@/app/data/productos";
+import Achievements from "./Achievements";
+import MoneyAnimation from "./MoneyAnimation";
+import { auth } from "@/app/lib/auth";
+import {
+  sumarCompra,
+  obtenerUsuario,
+  guardarHistorial,
+} from "@/app/lib/usuario";
 
 export default function Hero() {
   const [buscar, setBuscar] = useState("");
@@ -14,14 +22,35 @@ export default function Hero() {
   const [dineroAhorrado, setDineroAhorrado] = useState(0);
   const [comprasEvitadas, setComprasEvitadas] = useState(0);
 
+  const [mostrarAnimacion, setMostrarAnimacion] = useState(false);
+  const [montoAnimacion, setMontoAnimacion] = useState(0);
+
   useEffect(() => {
+  async function cargarDatos() {
+    const usuario = auth.currentUser;
+
+    if (usuario) {
+      const datos = await obtenerUsuario(usuario.uid);
+
+      if (datos) {
+        setDineroAhorrado(datos.dinero ?? 0);
+        setComprasEvitadas(datos.compras ?? 0);
+        return;
+      }
+    }
+
     const ahorro = localStorage.getItem("dineroAhorrado");
     const compras = localStorage.getItem("comprasEvitadas");
 
     if (ahorro) setDineroAhorrado(Number(ahorro));
     if (compras) setComprasEvitadas(Number(compras));
-  }, []);
+  }
 
+  cargarDatos();
+}, []);
+
+    // Respaldo mientras terminamos la migración
+    
   useEffect(() => {
     localStorage.setItem(
       "dineroAhorrado",
@@ -42,7 +71,7 @@ export default function Hero() {
     (producto) => producto.id === seleccionado
   );
 
-  const comprarSinGastar = () => {
+  const comprarSinGastar = async () => {
     if (!productoSeleccionado) return;
 
     setDineroAhorrado(
@@ -52,8 +81,29 @@ export default function Hero() {
     setComprasEvitadas(
       (total) => total + 1
     );
+  setMontoAnimacion(productoSeleccionado.precio);
 
-    // Guardar historial
+setMostrarAnimacion(true);
+
+setTimeout(() => {
+  setMostrarAnimacion(false);
+}, 1200);
+const usuario = auth.currentUser;
+
+if (usuario) {
+  await sumarCompra(
+    usuario.uid,
+    productoSeleccionado.precio
+  );
+
+  await guardarHistorial(usuario.uid, {
+    id: productoSeleccionado.id,
+    nombre: productoSeleccionado.nombre,
+    precio: productoSeleccionado.precio,
+    imagen: productoSeleccionado.imagen,
+    fecha: new Date().toLocaleString("es-MX"),
+  });
+}
 
     const historial = JSON.parse(
       localStorage.getItem("historialCompras") || "[]"
@@ -82,103 +132,166 @@ export default function Hero() {
     setBuscar("");
     setSeleccionado(null);
   };
-    return (
-    <section className="text-center py-20 px-6">
 
-      <h2 className="text-6xl font-extrabold text-gray-900">
-        Tu mejor compra...
-      </h2>
+  return (
+    <section className="relative overflow-hidden py-24 px-6">
 
-      <h3 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mt-2">
-        es la que no hiciste.
-      </h3>
+      {/* Fondo Premium */}
 
-      <p className="mt-8 text-xl text-gray-600">
-        Busca cualquier producto y descubre cuánto podrías ahorrar e invertir.
-      </p>
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50 -z-20" />
 
-      <div className="mt-10 flex justify-center">
+      <div className="absolute -top-48 -left-48 h-96 w-96 rounded-full bg-blue-300/20 blur-3xl -z-10" />
 
-        <div className="w-full max-w-xl relative">
+      <div className="absolute -bottom-48 -right-48 h-96 w-96 rounded-full bg-indigo-300/20 blur-3xl -z-10" />
 
-          <input
-            value={buscar}
-            onChange={(e) => {
-              setBuscar(e.target.value);
-              setSeleccionado(null);
-            }}
-            placeholder="Buscar un producto..."
-            className="w-full rounded-2xl border p-5 text-lg text-black placeholder:text-gray-400 bg-white shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+      <div className="max-w-7xl mx-auto text-center">
 
-          {buscar.trim() !== "" &&
-            seleccionado === null &&
-            resultados.length > 0 && (
+        <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-5 py-2 text-sm font-semibold text-blue-700 shadow-sm">
 
-              <div className="absolute top-full left-0 w-full mt-2 bg-white rounded-2xl shadow-xl overflow-hidden z-50">
-
-                {resultados.map((producto) => (
-
-                  <button
-                    key={producto.id}
-                    onClick={() => setSeleccionado(producto.id)}
-                    className="w-full flex items-center gap-4 p-4 hover:bg-gray-100 transition border-b last:border-b-0"
-                  >
-
-                    <img
-                      src={producto.imagen}
-                      alt={producto.nombre}
-                      className="w-16 h-16 object-contain rounded-xl bg-gray-100 p-2"
-                    />
-
-                    <div className="text-left flex-1">
-
-                      <p className="font-bold text-gray-900">
-                        {producto.nombre}
-                      </p>
-
-                      <p className="text-sm text-gray-500">
-                        {producto.marca}
-                      </p>
-
-                      <p className="text-blue-700 font-bold mt-1">
-                        ${producto.precio.toLocaleString()} MXN
-                      </p>
-
-                    </div>
-
-                  </button>
-
-                ))}
-
-              </div>
-
-            )}
+          🚀 NoLoCompré Premium v2.0
 
         </div>
 
+        <h2 className="mt-10 text-6xl md:text-7xl font-black tracking-tight text-gray-900 leading-tight">
+
+          Tu mejor compra...
+
+        </h2>
+
+        <h3 className="mt-4 text-5xl md:text-6xl font-black bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+
+          es la que no hiciste.
+
+        </h3>
+
+        <p className="mt-8 max-w-3xl mx-auto text-lg md:text-xl leading-8 text-gray-600">
+
+          Busca cualquier producto y descubre cuánto dinero puedes conservar,
+          cuánto crecería si lo invirtieras y comienza a construir mejores
+          hábitos financieros.
+
+        </p>
+
+        <div className="mt-12 flex justify-center">
+
+          <div className="w-full max-w-2xl relative">
+
+            <div className="mb-4 flex justify-center">
+
+              <span className="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700 shadow">
+
+                🔥 Simula compras inteligentes
+
+              </span>
+
+            </div>
+
+            <input
+              value={buscar}
+              onChange={(e) => {
+                setBuscar(e.target.value);
+                setSeleccionado(null);
+              }}
+              placeholder="Busca un iPhone, una consola, una laptop..."
+              className="
+                w-full
+                rounded-3xl
+                border
+                border-gray-200
+                bg-white/90
+                backdrop-blur-xl
+                p-6
+                text-lg
+                text-black
+                placeholder:text-gray-400
+                shadow-2xl
+                transition-all
+                duration-300
+                focus:ring-4
+                focus:ring-blue-200
+                focus:border-blue-500
+                outline-none
+              "
+            />
+                        {buscar.trim() !== "" &&
+              seleccionado === null &&
+              resultados.length > 0 && (
+                <div className="absolute top-full left-0 mt-3 w-full overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-2xl z-50">
+
+                  {resultados.map((producto) => (
+                    <button
+                      key={producto.id}
+                      onClick={() => setSeleccionado(producto.id)}
+                      className="flex w-full items-center gap-4 border-b p-4 text-left transition-all hover:bg-blue-50 last:border-b-0"
+                    >
+                      <img
+                        src={producto.imagen}
+                        alt={producto.nombre}
+                        className="h-16 w-16 rounded-2xl bg-gray-100 p-2 object-contain"
+                      />
+
+                      <div className="flex-1">
+
+                        <h4 className="font-bold text-gray-900">
+                          {producto.nombre}
+                        </h4>
+
+                        <p className="text-sm text-gray-500">
+                          {producto.marca}
+                        </p>
+
+                        <p className="mt-1 font-bold text-blue-600">
+                          ${producto.precio.toLocaleString()} MXN
+                        </p>
+
+                      </div>
+
+                    </button>
+                  ))}
+
+                </div>
+              )}
+
+          </div>
+
+        </div>
+
+        {/* Dashboard */}
+
+        <div className="mt-16">
+          <Dashboard
+            dineroAhorrado={dineroAhorrado}
+            comprasEvitadas={comprasEvitadas}
+          />
+          <Achievements
+  comprasEvitadas={comprasEvitadas}
+/>
+        </div>
+
+        {/* Producto */}
+
+        {productoSeleccionado && (
+          <div className="mt-16 space-y-10">
+
+            <ProductCard
+              id={productoSeleccionado.id}
+              nombre={productoSeleccionado.nombre}
+              precio={productoSeleccionado.precio}
+              imagen={productoSeleccionado.imagen}
+              onComprar={comprarSinGastar}
+            />
+
+            <InvestmentCard
+              precio={productoSeleccionado.precio}
+            />
+
+          </div>
+        )}
+       <MoneyAnimation
+  amount={montoAnimacion}
+  visible={mostrarAnimacion}
+/>
       </div>
-
-      <Dashboard
-        dineroAhorrado={dineroAhorrado}
-        comprasEvitadas={comprasEvitadas}
-      />
-
-      {productoSeleccionado && (
-        <>
-          <ProductCard
-            id={productoSeleccionado.id}
-            nombre={productoSeleccionado.nombre}
-            precio={productoSeleccionado.precio}
-            imagen={productoSeleccionado.imagen}
-            onComprar={comprarSinGastar}
-          />
-
-          <InvestmentCard
-            precio={productoSeleccionado.precio}
-          />
-        </>
-      )}
 
     </section>
   );
