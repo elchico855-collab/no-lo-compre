@@ -92,7 +92,63 @@ const iniciarSesion = async () => {
           >
             ℹ️ Acerca
           </Link>
+          {usuario ? (
 
+  <div className="border-t px-6 py-4">
+
+    <div className="flex items-center gap-3">
+
+      <img
+        src={usuario.photoURL ?? "/window.svg"}
+        alt="Perfil"
+        className="w-12 h-12 rounded-full border-2 border-blue-500"
+      />
+
+      <div>
+
+        <p className="font-bold text-gray-800">
+          {usuario.displayName}
+        </p>
+
+        <p className="text-sm text-green-600">
+          🟢 En línea
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+) : (
+
+  <div className="border-t p-6">
+
+    <button
+      onClick={iniciarSesion}
+      disabled={loading}
+      className="
+        w-full
+        rounded-xl
+        bg-gradient-to-r
+        from-blue-600
+        to-indigo-700
+        px-6
+        py-3
+        font-semibold
+        text-white
+        shadow-lg
+        transition
+        hover:scale-[1.02]
+        disabled:opacity-60
+      "
+    >
+      {loading ? "Conectando..." : "👤 Iniciar sesión"}
+    </button>
+
+  </div>
+
+)}
         </nav>
 
         {/* Acciones */}
