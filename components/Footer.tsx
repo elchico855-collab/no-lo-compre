@@ -54,7 +54,7 @@ export default function Footer() {
               </p>
 
               <p className="text-gray-400">
-                <p>🚀 Versión 2.3 Premium</p>
+                <p>🚀Versión 3.0.2 Alpha</p>
               </p>
 
               <p className="text-gray-400">
