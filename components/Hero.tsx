@@ -22,6 +22,7 @@ import FinancialGoal from "./FinancialGoal";
 import XPCard from "./XPCard";
 import ChallengeCard from "./ChallengeCard";
 import AchievementCard from "./AchievementCard";
+import SmartFinanceSection from "./SmartFinanceSection";
 
 
 export default function Hero() {
@@ -317,6 +318,14 @@ if (usuario) {
     }}
     dinero={dineroAhorrado}
     compras={comprasEvitadas}
+  />
+
+  <SmartFinanceSection
+    dinero={dineroAhorrado}
+    compras={comprasEvitadas}
+    precio={productoSeleccionado?.precio ?? 0}
+    categoria="General"
+    marca={productoSeleccionado?.marca ?? ""}
   />
 
   <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-2">
