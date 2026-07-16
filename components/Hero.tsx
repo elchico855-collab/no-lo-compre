@@ -14,6 +14,12 @@ import {
   obtenerUsuario,
   guardarHistorial,
 } from "@/app/lib/usuario";
+import AIAdvisor from "./AIAdvisor";
+
+import { analizarProducto } from "@/app/lib/ai/engine";
+import { analizarUsuario } from "@/app/lib/ai/userEngine";
+import FinancialGoal from "./FinancialGoal";
+
 
 export default function Hero() {
   const [buscar, setBuscar] = useState("");
@@ -284,6 +290,47 @@ if (usuario) {
             <InvestmentCard
               precio={productoSeleccionado.precio}
             />
+        {(() => {
+  const resultadoProducto = analizarProducto({
+    id: productoSeleccionado.id,
+    nombre: productoSeleccionado.nombre,
+    precio: productoSeleccionado.precio,
+    marca: productoSeleccionado.marca,
+    categoria: "General",
+  });
+
+  const resultadoUsuario = analizarUsuario({
+  dinero: dineroAhorrado,
+  compras: comprasEvitadas,
+  precioProducto: productoSeleccionado.precio,
+});
+
+  return (
+    <>
+      <AIAdvisor
+        resultado={{
+          ...resultadoProducto,
+          mensaje: `${resultadoProducto.mensaje}\n\n${resultadoUsuario.mensaje}`,
+        }}
+          dinero={dineroAhorrado}
+  compras={comprasEvitadas}
+      />
+      <FinancialGoal
+  nombre={
+    productoSeleccionado
+      ? productoSeleccionado.nombre
+      : "Sin objetivo"
+  }
+  objetivo={
+    productoSeleccionado
+      ? productoSeleccionado.precio
+      : 1
+  }
+  ahorrado={dineroAhorrado}
+/>
+    </>
+  );
+})()}
 
           </div>
         )}
