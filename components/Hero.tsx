@@ -21,6 +21,7 @@ import { analizarUsuario } from "@/app/lib/ai/userEngine";
 import FinancialGoal from "./FinancialGoal";
 import XPCard from "./XPCard";
 import ChallengeCard from "./ChallengeCard";
+import AchievementCard from "./AchievementCard";
 
 
 export default function Hero() {
@@ -309,35 +310,44 @@ if (usuario) {
 
   return (
     <>
-      <AIAdvisor
-        resultado={{
-          ...resultadoProducto,
-          mensaje: `${resultadoProducto.mensaje}\n\n${resultadoUsuario.mensaje}`,
-        }}
-          dinero={dineroAhorrado}
-  compras={comprasEvitadas}
-      />
-      <FinancialGoal
-  nombre={
-    productoSeleccionado
-      ? productoSeleccionado.nombre
-      : "Sin objetivo"
-  }
-  objetivo={
-    productoSeleccionado
-      ? productoSeleccionado.precio
-      : 1
-  }
-  ahorrado={dineroAhorrado}
-/>
+  <AIAdvisor
+    resultado={{
+      ...resultadoProducto,
+      mensaje: `${resultadoProducto.mensaje}\n\n${resultadoUsuario.mensaje}`,
+    }}
+    dinero={dineroAhorrado}
+    compras={comprasEvitadas}
+  />
 
-<XPCard
-  compras={comprasEvitadas}
-/>
+  <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-2">
 
-<ChallengeCard
-  compras={comprasEvitadas}
-/>
+    <FinancialGoal
+      nombre={
+        productoSeleccionado
+          ? productoSeleccionado.nombre
+          : "Sin objetivo"
+      }
+      objetivo={
+        productoSeleccionado
+          ? productoSeleccionado.precio
+          : 1
+      }
+      ahorrado={dineroAhorrado}
+    />
+
+    <XPCard
+      compras={comprasEvitadas}
+    />
+
+    <ChallengeCard
+      compras={comprasEvitadas}
+    />
+
+    <AchievementCard
+      compras={comprasEvitadas}
+    />
+
+  </div>
 
 </>
   );
