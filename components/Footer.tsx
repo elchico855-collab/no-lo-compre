@@ -53,10 +53,9 @@ export default function Footer() {
                 ● Sistema en línea
               </p>
 
-              <p className="text-gray-400">
-                <p>🚀Versión 3.0.2 Alpha</p>
-              </p>
-
+              <div className="text-gray-400">
+  🚀 NoLoCompré Premium v3.0.2 Beta
+</div>
               <p className="text-gray-400">
                 Hecho con Next.js + Tailwind
               </p>

@@ -20,6 +20,7 @@ import { analizarProducto } from "@/app/lib/ai/engine";
 import { analizarUsuario } from "@/app/lib/ai/userEngine";
 import FinancialGoal from "./FinancialGoal";
 import XPCard from "./XPCard";
+import ChallengeCard from "./ChallengeCard";
 
 
 export default function Hero() {
@@ -331,6 +332,10 @@ if (usuario) {
 />
 
 <XPCard
+  compras={comprasEvitadas}
+/>
+
+<ChallengeCard
   compras={comprasEvitadas}
 />
 
