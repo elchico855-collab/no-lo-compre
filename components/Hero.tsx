@@ -19,6 +19,7 @@ import AIAdvisor from "./AIAdvisor";
 import { analizarProducto } from "@/app/lib/ai/engine";
 import { analizarUsuario } from "@/app/lib/ai/userEngine";
 import FinancialGoal from "./FinancialGoal";
+import XPCard from "./XPCard";
 
 
 export default function Hero() {
@@ -328,7 +329,12 @@ if (usuario) {
   }
   ahorrado={dineroAhorrado}
 />
-    </>
+
+<XPCard
+  compras={comprasEvitadas}
+/>
+
+</>
   );
 })()}
 
