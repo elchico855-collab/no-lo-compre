@@ -19,15 +19,19 @@ export default function Header() {
   }, []);
 
   const iniciarSesion = async () => {
-    try {
-      setLoading(true);
-      await loginGoogle();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  console.log("CLICK LOGIN");
+
+  try {
+    setLoading(true);
+
+    await loginGoogle();
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-xl shadow-sm">
