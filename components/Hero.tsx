@@ -23,6 +23,7 @@ import XPCard from "./XPCard";
 import ChallengeCard from "./ChallengeCard";
 import AchievementCard from "./AchievementCard";
 import SmartFinanceSection from "./SmartFinanceSection";
+import FinancialCenter from "@/components/FinancialCenter";
 
 
 export default function Hero() {
@@ -357,7 +358,10 @@ if (usuario) {
     />
 
   </div>
-
+<FinancialCenter
+  dinero={dineroAhorrado}
+  compras={comprasEvitadas}
+/>
 </>
   );
 })()}
