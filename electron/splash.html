@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>NoLoCompré</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+
+background:#0F172A;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
+overflow:hidden;
+
+}
+
+.container{
+
+text-align:center;
+
+color:white;
+
+}
+
+.logo{
+
+font-size:56px;
+
+font-weight:800;
+
+margin-bottom:18px;
+
+}
+
+.logo span{
+
+color:#3B82F6;
+
+}
+
+.text{
+
+font-size:22px;
+
+opacity:.9;
+
+margin-bottom:35px;
+
+}
+
+.loader{
+
+width:280px;
+
+height:8px;
+
+background:#1E293B;
+
+border-radius:50px;
+
+overflow:hidden;
+
+margin:auto;
+
+}
+
+.bar{
+
+height:100%;
+
+width:0;
+
+background:#3B82F6;
+
+animation:load 2s linear forwards;
+
+}
+
+@keyframes load{
+
+to{
+
+width:100%;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+
+NoLo<span>Compré</span>
+
+</div>
+
+<div class="text">
+
+Tu mejor compra... es la que no hiciste.
+
+</div>
+
+<div class="loader">
+
+<div class="bar"></div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
